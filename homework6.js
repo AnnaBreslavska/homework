@@ -1,5 +1,4 @@
-var arr = `
-[
+var arr = `[
     {
         userName:"Test",
         lastName:"Test",
@@ -15,10 +14,18 @@ var arr = `
         lastName:"",
         email:"andrii@mail.ru"
     }
-]
-`;
+]`;
 arr = arr.replace(/[<>]/g, "");
-//console.log(arr);
-let check = /\w+(\.\w+)?@(gmail.com|yahoo.com)/gi;
-let correctEmails = arr.match(check);
+arr = arr.replace(/(\w+)\s*:/g, '"$1":');
+let array = JSON.parse(arr);
+
+let check =  /\w+(\.\w+)?@(gmail.com|yahoo.com)/gi;
+let correctEmails = [];
+
+array.forEach(element => {
+
+    if (element.email && element.email.match(check)) {
+        
+        correctEmails.push(element);    }
+});
 console.log(correctEmails);
