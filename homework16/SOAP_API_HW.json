@@ -1,0 +1,435 @@
+{
+  "info": {
+    "_postman_id": "12607354-1dd1-4076-b217-d68a484875c3",
+    "name": "Public SOAP APIs",
+    "description": "This is a collection of different SOAP APIs that are completley public and do not require any authentication, making it easier for consumers to play with and understand what APIs are all about by seeing the many different ways in which APIs can be used.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40094681"
+  },
+  "item": [
+    {
+      "name": "Book ISBN Numbers",
+      "item": [
+        {
+          "name": "Is Valid ISBN13 Number",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let isbnLibraryList13 = JSON.parse(pm.collectionVariables.get(\"isbnLibraryList13\"));",
+                  "let index = Number(pm.collectionVariables.get(\"index\"));",
+                  "let currentISBN = isbnLibraryList13[index];",
+                  "",
+                  "if (pm.response.code === 500) {",
+                  "    pm.test(\"Server returned 500, skipping iteration\", function () {",
+                  "        pm.expect(pm.response.code).to.not.eql(500);",
+                  "    });",
+                  "    index++;",
+                  "    pm.collectionVariables.set(\"index\", index);",
+                  "    pm.collectionVariables.set(\"currentISBN\", isbnLibraryList13[index]);",
+                  "    pm.execution.setNextRequest(\"Is Valid ISBN13 Number\");",
+                  "",
+                  "} else {",
+                  "",
+                  "    var jsonObject = xml2Json(responseBody);",
+                  "    const headers = pm.response.headers;",
+                  "",
+                  "    pm.test(\"SOAP response has valid Response Body\", function () {",
+                  "        pm.expect(jsonObject).to.have.property(\"soap:Envelope\");",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"]).to.have.property(\"soap:Body\");",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"][\"soap:Body\"]).to.have.property(\"m:IsValidISBN13Response\");",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"][\"soap:Body\"][\"m:IsValidISBN13Response\"]).to.have.property(\"m:IsValidISBN13Result\");",
+                  "    });",
+                  "",
+                  "    const result = jsonObject[\"soap:Envelope\"][\"soap:Body\"][\"m:IsValidISBN13Response\"][\"m:IsValidISBN13Result\"];",
+                  "",
+                  "    if (result === \"true\") {",
+                  "        pm.test(\"Required SOAP headers are present for ISBN 13: \" + currentISBN, function () {",
+                  "            pm.expect(headers.has(\"Cache-Control\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Type\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Encoding\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Vary\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Server\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Web-Service\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Permissions-Policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Strict-Transport-Security\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Referrer-Policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"content-security-policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Date\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Length\")).to.be.true;",
+                  "        });",
+                  "        pm.test(\"Header has valid value for ISBN13: \" + currentISBN, function () {",
+                  "            const cacheControl = pm.response.headers.get(\"Cache-Control\");",
+                  "            pm.expect(cacheControl).to.include(\"private, max-age=0\");",
+                  "            const contentType = pm.response.headers.get(\"Content-Type\");",
+                  "            pm.expect(contentType).to.include(\"text/xml\");",
+                  "            const contentEncoding = pm.response.headers.get(\"Content-Encoding\");",
+                  "            pm.expect(contentEncoding).to.include(\"gzip\");",
+                  "            const vary = pm.response.headers.get(\"Vary\");",
+                  "            pm.expect(vary).to.include(\"Accept-Encoding\");",
+                  "            const server = pm.response.headers.get(\"Server\");",
+                  "            pm.expect(server).to.include(\"Microsoft-IIS/10.0\");",
+                  "            const webService = pm.response.headers.get(\"Web-Service\");",
+                  "            pm.expect(webService).to.include(\"DataFlex 18.2\");",
+                  "            const permissionsPolicy = pm.response.headers.get(\"Permissions-Policy\");",
+                  "            pm.expect(permissionsPolicy).to.include(\"interest-cohort=()\");",
+                  "            const strictTransportSecurity = pm.response.headers.get(\"Strict-Transport-Security\");",
+                  "            pm.expect(strictTransportSecurity).to.include(\"max-age=15768000;includeSubdomains\");",
+                  "            const referrerPolicy = pm.response.headers.get(\"Referrer-Policy\");",
+                  "            pm.expect(referrerPolicy).to.include(\"strict-origin-when-cross-origin\");",
+                  "            const contentSecurityPolicy = pm.response.headers.get(\"content-security-policy\");",
+                  "            pm.expect(contentSecurityPolicy).to.include(\"default-src\");",
+                  "            const date = pm.response.headers.get(\"Date\");",
+                  "            pm.expect(date).to.match(/^[A-Z][a-z]{2}, \\d{2} [A-Z][a-z]{2} \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$/);",
+                  "            const contentLength = pm.response.headers.get(\"Content-Length\");",
+                  "            pm.expect(contentLength).to.eql(\"302\");",
+                  "        });",
+                  "    } else {",
+                  "        pm.test(\"Required SOAP headers are present for ISBN 13: \" + currentISBN, function () {",
+                  "            pm.expect(headers.has(\"Cache-Control\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Type\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Encoding\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Vary\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Server\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Web-Service\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Permissions-Policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Strict-Transport-Security\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Referrer-Policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"content-security-policy\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Date\")).to.be.true;",
+                  "            pm.expect(headers.has(\"Content-Length\")).to.be.true;",
+                  "        });",
+                  "        pm.test(\"Header has valid value for ISBN 13: \" + currentISBN, function () {",
+                  "            const cacheControl = pm.response.headers.get(\"Cache-Control\");",
+                  "            pm.expect(cacheControl).to.include(\"private, max-age=0\");",
+                  "            const contentType = pm.response.headers.get(\"Content-Type\");",
+                  "            pm.expect(contentType).to.include(\"text/xml\");",
+                  "            const contentEncoding = pm.response.headers.get(\"Content-Encoding\");",
+                  "            pm.expect(contentEncoding).to.include(\"gzip\");",
+                  "            const vary = pm.response.headers.get(\"Vary\");",
+                  "            pm.expect(vary).to.include(\"Accept-Encoding\");",
+                  "            const server = pm.response.headers.get(\"Server\");",
+                  "            pm.expect(server).to.include(\"Microsoft-IIS/10.0\");",
+                  "            const webService = pm.response.headers.get(\"Web-Service\");",
+                  "            pm.expect(webService).to.include(\"DataFlex 18.2\");",
+                  "            const permissionsPolicy = pm.response.headers.get(\"Permissions-Policy\");",
+                  "            pm.expect(permissionsPolicy).to.include(\"interest-cohort=()\");",
+                  "            const strictTransportSecurity = pm.response.headers.get(\"Strict-Transport-Security\");",
+                  "            pm.expect(strictTransportSecurity).to.include(\"max-age=15768000;includeSubdomains\");",
+                  "            const referrerPolicy = pm.response.headers.get(\"Referrer-Policy\");",
+                  "            pm.expect(referrerPolicy).to.include(\"strict-origin-when-cross-origin\");",
+                  "            const contentSecurityPolicy = pm.response.headers.get(\"content-security-policy\");",
+                  "            pm.expect(contentSecurityPolicy).to.include(\"default-src\");",
+                  "            const date = pm.response.headers.get(\"Date\");",
+                  "            pm.expect(date).to.match(/^[A-Z][a-z]{2}, \\d{2} [A-Z][a-z]{2} \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$/);",
+                  "            const contentLength = pm.response.headers.get(\"Content-Length\");",
+                  "            pm.expect(contentLength).to.eql(\"303\");",
+                  "        });",
+                  "    }",
+                  "",
+                  "    index++;",
+                  "    pm.collectionVariables.set(\"index\", index);",
+                  "",
+                  "    if (index < isbnLibraryList13.length) {",
+                  "        pm.collectionVariables.set(\"currentISBN\", isbnLibraryList13[index]);",
+                  "        pm.execution.setNextRequest(\"Is Valid ISBN13 Number\");",
+                  "    } else {",
+                  "        pm.collectionVariables.unset(\"index\");",
+                  "        pm.collectionVariables.unset(\"currentISBN\");",
+                  "        pm.collectionVariables.unset(\"isbnLibraryList13\");",
+                  "        pm.execution.setNextRequest(\"Is Valid ISBN10 Number\");",
+                  "    }",
+                  "}",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let isbnLibraryList13 = pm.iterationData.get(\"isbnLibraryList13\");\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"isbnLibraryList13\", JSON.stringify(isbnLibraryList13));\r",
+                  "\r",
+                  "let index = Number(pm.collectionVariables.get(\"index\") ?? 0);\r",
+                  "pm.collectionVariables.set(\"index\", index);\r",
+                  "\r",
+                  "const currentISBN = isbnLibraryList13[index];\r",
+                  "pm.collectionVariables.set(\"currentISBN\", currentISBN);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/xml; charset=utf-8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <IsValidISBN13 xmlns=\"http://webservices.daehosting.com/ISBN\">\n      <sISBN>\"{{currentISBN}}\"</sISBN>\n    </IsValidISBN13>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": {
+              "raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+              "protocol": "http",
+              "host": [
+                "webservices",
+                "daehosting",
+                "com"
+              ],
+              "path": [
+                "services",
+                "isbnservice.wso"
+              ]
+            },
+            "description": "The test is done by calculation on the first 12 digits and compare the result with the checksum number at the end. You have to pass a 13 digits number."
+          },
+          "response": []
+        },
+        {
+          "name": "Is Valid ISBN10 Number",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let isbnLibraryList10 = JSON.parse(pm.collectionVariables.get(\"isbnLibraryList10\"));\r",
+                  "let index = Number(pm.collectionVariables.get(\"index\"));\r",
+                  "let currentISBN = isbnLibraryList10[index];\r",
+                  "\r",
+                  "if (pm.response.code === 500) {\r",
+                  "    pm.test(\"Server returned 500, skipping iteration\", function () {\r",
+                  "        pm.expect(pm.response.code).to.not.eql(500);\r",
+                  "    });\r",
+                  "    index++;\r",
+                  "    pm.collectionVariables.set(\"index\", index);\r",
+                  "    pm.collectionVariables.set(\"currentISBN\", isbnLibraryList10[index]);\r",
+                  "    pm.execution.setNextRequest(\"Is Valid ISBN10 Number\");\r",
+                  "\r",
+                  "} else {\r",
+                  "\r",
+                  "    var jsonObject = xml2Json(responseBody);\r",
+                  "    const headers = pm.response.headers;\r",
+                  "\r",
+                  "    pm.test(\"SOAP response has valid Response Body\", function () {\r",
+                  "        pm.expect(jsonObject).to.have.property(\"soap:Envelope\");\r",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"]).to.have.property(\"soap:Body\");\r",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"][\"soap:Body\"]).to.have.property(\"m:IsValidISBN10Response\");\r",
+                  "        pm.expect(jsonObject[\"soap:Envelope\"][\"soap:Body\"][\"m:IsValidISBN10Response\"]).to.have.property(\"m:IsValidISBN10Result\");\r",
+                  "    });\r",
+                  "\r",
+                  "    const result = jsonObject[\"soap:Envelope\"][\"soap:Body\"][\"m:IsValidISBN10Response\"][\"m:IsValidISBN10Result\"];\r",
+                  "\r",
+                  "    if (result === \"true\") {\r",
+                  "        pm.test(\"Required SOAP headers are present for ISBN 10: \" + currentISBN, function () {\r",
+                  "            pm.expect(headers.has(\"Cache-Control\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Type\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Encoding\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Vary\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Server\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Web-Service\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Permissions-Policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Strict-Transport-Security\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Referrer-Policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"content-security-policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Date\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Length\")).to.be.true;\r",
+                  "        });\r",
+                  "        pm.test(\"Header has valid value for ISBN10: \" + currentISBN, function () {\r",
+                  "            const cacheControl = pm.response.headers.get(\"Cache-Control\");\r",
+                  "            pm.expect(cacheControl).to.include(\"private, max-age=0\");\r",
+                  "            const contentType = pm.response.headers.get(\"Content-Type\");\r",
+                  "            pm.expect(contentType).to.include(\"text/xml\");\r",
+                  "            const contentEncoding = pm.response.headers.get(\"Content-Encoding\");\r",
+                  "            pm.expect(contentEncoding).to.include(\"gzip\");\r",
+                  "            const vary = pm.response.headers.get(\"Vary\");\r",
+                  "            pm.expect(vary).to.include(\"Accept-Encoding\");\r",
+                  "            const server = pm.response.headers.get(\"Server\");\r",
+                  "            pm.expect(server).to.include(\"Microsoft-IIS/10.0\");\r",
+                  "            const webService = pm.response.headers.get(\"Web-Service\");\r",
+                  "            pm.expect(webService).to.include(\"DataFlex 18.2\");\r",
+                  "            const permissionsPolicy = pm.response.headers.get(\"Permissions-Policy\");\r",
+                  "            pm.expect(permissionsPolicy).to.include(\"interest-cohort=()\");\r",
+                  "            const strictTransportSecurity = pm.response.headers.get(\"Strict-Transport-Security\");\r",
+                  "            pm.expect(strictTransportSecurity).to.include(\"max-age=15768000;includeSubdomains\");\r",
+                  "            const referrerPolicy = pm.response.headers.get(\"Referrer-Policy\");\r",
+                  "            pm.expect(referrerPolicy).to.include(\"strict-origin-when-cross-origin\");\r",
+                  "            const contentSecurityPolicy = pm.response.headers.get(\"content-security-policy\");\r",
+                  "            pm.expect(contentSecurityPolicy).to.include(\"default-src\");\r",
+                  "            const date = pm.response.headers.get(\"Date\");\r",
+                  "            pm.expect(date).to.match(/^[A-Z][a-z]{2}, \\d{2} [A-Z][a-z]{2} \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$/);\r",
+                  "            const contentLength = pm.response.headers.get(\"Content-Length\");\r",
+                  "            pm.expect(contentLength).to.eql(\"302\");\r",
+                  "        });\r",
+                  "    } else {\r",
+                  "        pm.test(\"Required SOAP headers are present for ISBN 10: \" + currentISBN, function () {\r",
+                  "            pm.expect(headers.has(\"Cache-Control\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Type\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Encoding\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Vary\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Server\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Web-Service\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Permissions-Policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Strict-Transport-Security\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Referrer-Policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"content-security-policy\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Date\")).to.be.true;\r",
+                  "            pm.expect(headers.has(\"Content-Length\")).to.be.true;\r",
+                  "        });\r",
+                  "        pm.test(\"Header has valid value for ISBN10: \" + currentISBN, function () {\r",
+                  "            const cacheControl = pm.response.headers.get(\"Cache-Control\");\r",
+                  "            pm.expect(cacheControl).to.include(\"private, max-age=0\");\r",
+                  "            const contentType = pm.response.headers.get(\"Content-Type\");\r",
+                  "            pm.expect(contentType).to.include(\"text/xml\");\r",
+                  "            const contentEncoding = pm.response.headers.get(\"Content-Encoding\");\r",
+                  "            pm.expect(contentEncoding).to.include(\"gzip\");\r",
+                  "            const vary = pm.response.headers.get(\"Vary\");\r",
+                  "            pm.expect(vary).to.include(\"Accept-Encoding\");\r",
+                  "            const server = pm.response.headers.get(\"Server\");\r",
+                  "            pm.expect(server).to.include(\"Microsoft-IIS/10.0\");\r",
+                  "            const webService = pm.response.headers.get(\"Web-Service\");\r",
+                  "            pm.expect(webService).to.include(\"DataFlex 18.2\");\r",
+                  "            const permissionsPolicy = pm.response.headers.get(\"Permissions-Policy\");\r",
+                  "            pm.expect(permissionsPolicy).to.include(\"interest-cohort=()\");\r",
+                  "            const strictTransportSecurity = pm.response.headers.get(\"Strict-Transport-Security\");\r",
+                  "            pm.expect(strictTransportSecurity).to.include(\"max-age=15768000;includeSubdomains\");\r",
+                  "            const referrerPolicy = pm.response.headers.get(\"Referrer-Policy\");\r",
+                  "            pm.expect(referrerPolicy).to.include(\"strict-origin-when-cross-origin\");\r",
+                  "            const contentSecurityPolicy = pm.response.headers.get(\"content-security-policy\");\r",
+                  "            pm.expect(contentSecurityPolicy).to.include(\"default-src\");\r",
+                  "            const date = pm.response.headers.get(\"Date\");\r",
+                  "            pm.expect(date).to.match(/^[A-Z][a-z]{2}, \\d{2} [A-Z][a-z]{2} \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$/);\r",
+                  "            const contentLength = pm.response.headers.get(\"Content-Length\");\r",
+                  "            pm.expect(contentLength).to.eql(\"303\");\r",
+                  "        });\r",
+                  "    }\r",
+                  "\r",
+                  "    index++;\r",
+                  "    pm.collectionVariables.set(\"index\", index);\r",
+                  "\r",
+                  "    if (index < isbnLibraryList10.length) {\r",
+                  "        pm.collectionVariables.set(\"currentISBN\", isbnLibraryList10[index]);\r",
+                  "        pm.execution.setNextRequest(\"Is Valid ISBN10 Number\");\r",
+                  "    } else {\r",
+                  "        pm.collectionVariables.unset(\"index\");\r",
+                  "        pm.collectionVariables.unset(\"currentISBN\");\r",
+                  "        pm.collectionVariables.unset(\"isbnLibraryList10\");\r",
+                  "        pm.execution.setNextRequest(null);\r",
+                  "    }\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "let isbnLibraryList10 = pm.iterationData.get(\"isbnLibraryList10\");\r",
+                  "\r",
+                  "pm.collectionVariables.set(\"isbnLibraryList10\", JSON.stringify(isbnLibraryList10));\r",
+                  "\r",
+                  "let index = Number(pm.collectionVariables.get(\"index\") ?? 0);\r",
+                  "pm.collectionVariables.set(\"index\", index);\r",
+                  "\r",
+                  "const currentISBN = isbnLibraryList10[index];\r",
+                  "pm.collectionVariables.set(\"currentISBN\", currentISBN);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/xml; charset=utf-8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <IsValidISBN10 xmlns=\"http://webservices.daehosting.com/ISBN\">\n      <sISBN>{{currentISBN}}</sISBN>\n    </IsValidISBN10>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": {
+              "raw": "http://webservices.daehosting.com/services/isbnservice.wso",
+              "protocol": "http",
+              "host": [
+                "webservices",
+                "daehosting",
+                "com"
+              ],
+              "path": [
+                "services",
+                "isbnservice.wso"
+              ]
+            },
+            "description": "The test is done by calculation on the first 9 digits and compare the result with the checksum number at the end. You have to pass a 10 digits number or 8 digits and an X."
+          },
+          "response": []
+        }
+      ],
+      "description": "SOAP APIs for book ISBN numbers.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
