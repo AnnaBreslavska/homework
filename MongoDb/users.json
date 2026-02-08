@@ -1,0 +1,5 @@
+{"_id":{"$oid":"698320c0bc49acb5cc628ca1"},"email":"test@gmail.com","password":"testingtest","createdAt":{"$date":"2026-02-04T10:34:40.071Z"},"updatedAt":{"$date":"2026-02-04T10:34:40.071Z"},"role":"user"}
+{"_id":{"$oid":"69832147bc49acb5cc628ca2"},"email":"alice@example.com","password":"hashedpassword1","createdAt":{"$date":"2026-02-04T10:36:55.197Z"},"updatedAt":{"$date":"2026-02-04T10:36:55.197Z"},"role":"user"}
+{"_id":{"$oid":"69832147bc49acb5cc628ca3"},"email":"bob@example.com","password":"hashedpassword2","createdAt":{"$date":"2026-02-04T10:36:55.197Z"},"updatedAt":{"$date":"2026-02-04T10:36:55.197Z"},"role":"admin"}
+{"_id":{"$oid":"69832147bc49acb5cc628ca4"},"email":"carol@example.com","password":"hashedpassword3","createdAt":{"$date":"2026-02-04T10:36:55.197Z"},"updatedAt":{"$date":"2026-02-04T10:36:55.197Z"},"role":"moderator"}
+{"_id":{"$oid":"69832147bc49acb5cc628ca5"},"email":"dave@example.com","password":"hashedpassword4","createdAt":{"$date":"2026-02-04T10:36:55.197Z"},"updatedAt":{"$date":"2026-02-04T10:36:55.197Z"},"role":"user"}

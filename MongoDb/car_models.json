@@ -1,0 +1,7 @@
+{"_id":{"$oid":"698326c7bc49acb5cc628cad"},"carBrandId":1,"title":"TT","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628cae"},"carBrandId":2,"title":"R8","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628caf"},"carBrandId":3,"title":"Q7","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628cb0"},"carBrandId":4,"title":"A6","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628cb1"},"carBrandId":5,"title":"A8","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628cb2"},"carBrandId":6,"title":"Cayenne","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}
+{"_id":{"$oid":"698326c7bc49acb5cc628cb3"},"carBrandId":7,"title":"Panamera","createdAt":{"$date":"2026-02-04T11:00:23Z"},"updatedAt":{"$date":"2026-02-04T11:00:23Z"}}

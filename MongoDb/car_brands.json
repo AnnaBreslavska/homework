@@ -1,0 +1,5 @@
+{"_id":{"$oid":"69832853bc49acb5cc628cb4"},"title":"Audi","logoFilename":"audi.png","createdAt":{"$date":"2026-02-04T11:06:59.975Z"},"updatedAt":{"$date":"2026-02-04T11:06:59.975Z"}}
+{"_id":{"$oid":"69832853bc49acb5cc628cb5"},"title":"BMW","logoFilename":"bmw.png","createdAt":{"$date":"2026-02-04T11:06:59.975Z"},"updatedAt":{"$date":"2026-02-04T11:06:59.975Z"}}
+{"_id":{"$oid":"69832853bc49acb5cc628cb6"},"title":"Ford","logoFilename":"ford.png","createdAt":{"$date":"2026-02-04T11:06:59.975Z"},"updatedAt":{"$date":"2026-02-04T11:06:59.975Z"}}
+{"_id":{"$oid":"69832853bc49acb5cc628cb7"},"title":"Porsche","logoFilename":"porsche.png","createdAt":{"$date":"2026-02-04T11:06:59.975Z"},"updatedAt":{"$date":"2026-02-04T11:06:59.975Z"}}
+{"_id":{"$oid":"69832853bc49acb5cc628cb8"},"title":"Fiat","logoFilename":"fiat.png","createdAt":{"$date":"2026-02-04T11:06:59.975Z"},"updatedAt":{"$date":"2026-02-04T11:06:59.975Z"}}
